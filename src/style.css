@@ -41,7 +41,7 @@ button {
     word-break: break-all;
 }
 
-#new {
+.new {
     font-size: 16px;
     padding: 8px;
     border-radius: 5px;
@@ -147,6 +147,46 @@ tbody tr td.acao {
     }
 }
 
+
+  .navbar {
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px; 
+    width: 90%;
+    margin-bottom: 20px;
+  }
+  
+  .nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between; 
+  }
+  
+  .nav-list li {
+    margin: 0;
+  }
+  
+  .nav-list a {
+    text-decoration: none;
+    color: rgb(57, 57, 226); 
+    font-weight: bold;
+  }
+  
+  .nav-list a:hover {
+    text-decoration: underline; 
+  }
+
+.container_view {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .modal-container {
     width: 100vw;
     height: 100vh;
@@ -175,7 +215,34 @@ tbody tr td.acao {
     width: 100%;
 }
 
-.modal input {
+.search-container {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-container input {
+    width: 30% !important;
+}
+
+
+.search-container button {
+    width: 100px;
+    height: 40px;
+}
+
+.modal input, .search-container input {
+    width: 100%;
+    outline: none;
+    padding: 5px 10px; 
+    width: 100%;
+    margin-bottom: 20px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.modal select {
     width: 100%;
     outline: none;
     padding: 5px 10px; 

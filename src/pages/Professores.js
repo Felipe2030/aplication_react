@@ -5,12 +5,16 @@ import {
   deletarProfessor,
   criarProfessor,
   atualizarProfessor,
+  getProfessoresByNome
 } from "../services/professorService";
+import Navbar from "../components/Navbar";
 
 const Professores = () => {
   const [professores, setProfessores] = useState([]);
   const [modalAberto, setModalAberto] = useState(false);
   const [dadosEdicao, setDadosEdicao] = useState(null);
+  const [nomePesquisa, setNomePesquisa] = useState("");
+
 
   useEffect(() => {
     fetchProfessores();
@@ -54,15 +58,38 @@ const Professores = () => {
     await fetchProfessores();
   };
 
+  const handlePesquisarPorNome = async () => {
+    try {
+      const data = await getProfessoresByNome(nomePesquisa);
+      setProfessores(data);
+    } catch (error) {
+      console.error('Erro ao buscar alunos por nome:', error);
+    }
+  };
+
+
+
   return (
-    <>
+    <div className="container_view">
+      <Navbar />
       <div className="container">
         <div className="header">
           <span>Professores</span>
-          <button id="new" onClick={handleAbrirModal}>
+          <button className="new" onClick={handleAbrirModal}>
             Cadastrar
           </button>
         </div>
+
+        <div className="search-container">
+            <input
+                type="text"
+                placeholder="Pesquisar por nome"
+                value={nomePesquisa}
+                onChange={(e) => setNomePesquisa(e.target.value)}
+            />
+            <button className="new" onClick={handlePesquisarPorNome}>Pesquisar</button>
+        </div>
+
 
         <div className="divTable">
           <table>
@@ -106,7 +133,7 @@ const Professores = () => {
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 

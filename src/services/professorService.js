@@ -1,6 +1,17 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/professores';
+const API_URL = 'https://aplicacao-spring-boot.onrender.com/api/professores';
+
+const getProfessoresByNome = async (nome) => {
+  try {
+    const response = await axios.get(API_URL + '/nome?nome=' + nome);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao buscar professores:', error);
+    throw error;
+  }
+};
+
 
 const getProfessores = async () => {
   try {
@@ -43,4 +54,5 @@ export {
   criarProfessor,
   atualizarProfessor,
   deletarProfessor,
+  getProfessoresByNome
 };

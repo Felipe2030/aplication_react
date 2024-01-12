@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/feedback';
+const API_URL = 'https://aplicacao-spring-boot.onrender.com/api/feedback';
 
 const getFeedback = async () => {
   try {

@@ -1,8 +1,12 @@
 import React, {useState, useEffect} from "react";
-import { getTurmas, deletarTurma } from "../services/turmaService";
+import { getTurmas, deletarTurma, atualizarTurma, criarTurma } from "../services/turmaService";
+import FormularioCadastroEdicao from "../components/FormularioCadastroEdicaoTurma";
+import Navbar from "../components/Navbar";
 
 const Turmas = () => {
     const [turmas, setTurmas] = useState([]);
+    const [modalAberto, setModalAberto] = useState(false);
+    const [dadosEdicao, setDadosEdicao] = useState(null);
 
     useEffect(() => {
         fetchTurmas();
@@ -17,17 +21,42 @@ const Turmas = () => {
         }
     };
 
+    const handleAbrirModal = () => {
+        setModalAberto(true);
+    };
+
+    const handleFecharModal = () => {
+        setModalAberto(false);
+        setDadosEdicao(null);
+    };
+
+    const handleEditarItem = (dadosItem) => {
+        setDadosEdicao(dadosItem);
+        setModalAberto(true);
+    };
+
+    const handleFormSubmit = async (dadosFormulario, id) => {
+        if (id) {
+            await atualizarTurma(id, dadosFormulario);
+        } else {
+            await criarTurma(dadosFormulario);
+        }
+        await fetchTurmas();
+        handleFecharModal();
+    };
+
     const deleteTurmas = async (id) => {
         await deletarTurma(id);
         await fetchTurmas();
     }
 
     return (
-       <>
+        <div className="container_view">
+        <Navbar />
         <div className="container">
             <div className="header">
                 <span>Turmas</span>
-                <button id="new">Cadastrar</button>
+                <button className="new" onClick={handleAbrirModal}>Cadastrar</button>
             </div>
 
             <div className="divTable">
@@ -49,7 +78,7 @@ const Turmas = () => {
                                 <td>{turma.descricao}</td>
                                 <td>{turma.professor.nome}</td>
                                 <td>{(turma.ativo) ? 'Sim' : 'Não'}</td>
-                                <td className="acao"><a>Editar</a></td>
+                                <td className="acao"><a onClick={() => handleEditarItem(turma)}>Editar</a></td>
                                 <td className="acao"><a onClick={() => deleteTurmas(turma.id)}>Excluir</a></td>
                             </tr>
                         ))}
@@ -57,23 +86,16 @@ const Turmas = () => {
                 </table>
             </div>
 
-            <div className="modal-container">
-                <div className="modal">
-                    <form>
-                        <label>Nome</label>
-                        <input id="m-nome" type="text" required />
-                
-                        <label>Função</label>
-                        <input id="m-funcao" type="text" required />
-                
-                        <label>Salário</label>
-                        <input id="m-salario" type="number" required />
-                        <button id="btnSalvar">Salvar</button>
-                    </form>
-                </div>
-            </div>
+            {modalAberto && (
+                <FormularioCadastroEdicao
+                    modo={dadosEdicao ? 'editar' : 'cadastro'}
+                    dadosIniciais={dadosEdicao}
+                    onSubmit={handleFormSubmit}
+                    onClose={handleFecharModal}
+                />
+            )}
         </div>
-       </>
+       </div>
     )
 }
 
